@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>后台主页</title>
+    <link rel="stylesheet" href="./assets/layui/css/layui.css">
+    <script src="./assets/layui/layui.all.js"></script>
+</head>
+<body>
+
+<div id="addRoleDiv" style="display: none">
+    <form class="layui-form" id="editForm" lay-filter="editForm">
+        <input name="id" id="rid" style="display: none">
+        <br>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" class="layui-input" lay-verify="required" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色描述</label>
+            <div class="layui-input-inline">
+                <input type="text" name="roleKey" class="layui-input" lay-verify="required" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色状态</label>
+            <div class="layui-input-inline">
+                <select name="status" lay-verify="required">
+                    <option value="请选择"></option>
+                    <option value="1">禁用</option>
+                    <option value="0">启用</option>
+                </select>
+                <div class="layui-unselect layui-form-select">
+                    <div class="layui-select-title"><input type="text" placeholder="请选择" value="" readonly=""
+                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
+                    </div>
+                    <dl class="layui-anim layui-anim-upbit">
+                        <dd lay-value="请选择" class="layui-this"></dd>
+                        <dd lay-value="0" class="">禁用</dd>
+                        <dd lay-value="1" class="">启用</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" id="btnSub" class="layui-btn" lay-submit="" lay-filter="editRole"
+                        style="margin-left: 50px">提交
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<table class="layui-hide" id="test" lay-filter="test"></table>
+<div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-1" lay-id="test" style=" ">
+    <div class="layui-table-tool">
+        <div class="layui-table-tool-temp">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm" lay-event="addRole">新增角色</button>
+                <button class="layui-btn layui-btn-sm" lay-event="isAll">刷新</button>
+            </div>
+        </div>
+        <div class="layui-table-tool-self">
+            <div class="layui-inline" title="筛选列" lay-event="LAYTABLE_COLS"><i
+                    class="layui-icon layui-icon-cols"></i></div>
+            <div class="layui-inline" title="导出" lay-event="LAYTABLE_EXPORT"><i
+                    class="layui-icon layui-icon-export"></i></div>
+            <div class="layui-inline" title="打印" lay-event="LAYTABLE_PRINT"><i
+                    class="layui-icon layui-icon-print"></i></div>
+        </div>
+    </div>
+    <div class="layui-table-box">
+        <div class="layui-table-header">
+            <table class="layui-table" cellspacing="0" cellpadding="0" border="0">
+                <thead>
+                <tr>
+                    <th data-field="rid" data-key="1-0-0" data-unresize="true" class=" layui-unselect">
+                        <div class="layui-table-cell laytable-cell-1-0-0"><span>ID</span><span
+                                class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"
+                                                                         title="升序"></i><i
+                                class="layui-edge layui-table-sort-desc" title="降序"></i></span></div>
+                    </th>
+                    <th data-field="pttype" data-key="1-0-1" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-1"><span>角色名</span></div>
+                    </th>
+                    <th data-field="meno" data-key="1-0-2" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-2"><span>角色描述</span></div>
+                    </th>
+                    <th data-field="status" data-key="1-0-3" class=" layui-unselect">
+                        <div class="layui-table-cell laytable-cell-1-0-3"><span>状态</span><span
+                                class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"
+                                                                         title="升序"></i><i
+                                class="layui-edge layui-table-sort-desc" title="降序"></i></span></div>
+                    </th>
+                    <th data-field="4" data-key="1-0-4" class=" layui-table-col-special">
+                        <div class="layui-table-cell laytable-cell-1-0-4"><span>操作</span></div>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="layui-table-body layui-table-main">
+            <table class="layui-table" cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                <tr data-index="0" class="">
+                    <td data-field="rid" data-key="1-0-0" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-0">1</div>
+                    </td>
+                    <td data-field="pttype" data-key="1-0-1" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-1">店长</div>
+                    </td>
+                    <td data-field="meno" data-key="1-0-2" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-2">管理的</div>
+                    </td>
+                    <td data-field="status" data-key="1-0-3" data-content="1" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-3">
+                            <button type="button" class="layui-btn layui-btn-xs">启用</button>
+                        </div>
+                    </td>
+                    <td data-field="4" data-key="1-0-4" data-off="true" class="layui-table-col-special">
+                        <div class="layui-table-cell laytable-cell-1-0-4"><a class="layui-btn layui-btn-xs"
+                                                                             lay-event="edit">编辑</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" lay-event="update">修改权限</a>
+                            <button class="layui-btn layui-btn-warm layui-btn-xs" lay-event="upStatus">禁用</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr data-index="1" class="">
+                    <td data-field="rid" data-key="1-0-0" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-0">2</div>
+                    </td>
+                    <td data-field="pttype" data-key="1-0-1" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-1">盘点员</div>
+                    </td>
+                    <td data-field="meno" data-key="1-0-2" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-2">数手机的</div>
+                    </td>
+                    <td data-field="status" data-key="1-0-3" data-content="1" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-3">
+                            <button type="button" class="layui-btn layui-btn-xs">启用</button>
+                        </div>
+                    </td>
+                    <td data-field="4" data-key="1-0-4" data-off="true" class="layui-table-col-special">
+                        <div class="layui-table-cell laytable-cell-1-0-4"><a class="layui-btn layui-btn-xs"
+                                                                             lay-event="edit">编辑</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" lay-event="update">修改权限</a>
+                            <button class="layui-btn layui-btn-warm layui-btn-xs" lay-event="upStatus">禁用</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr data-index="2">
+                    <td data-field="rid" data-key="1-0-0" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-0">7</div>
+                    </td>
+                    <td data-field="pttype" data-key="1-0-1" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-1">普通员工</div>
+                    </td>
+                    <td data-field="meno" data-key="1-0-2" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-2">123123</div>
+                    </td>
+                    <td data-field="status" data-key="1-0-3" data-content="1" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-3">
+                            <button type="button" class="layui-btn layui-btn-xs">启用</button>
+                        </div>
+                    </td>
+                    <td data-field="4" data-key="1-0-4" data-off="true" class="layui-table-col-special">
+                        <div class="layui-table-cell laytable-cell-1-0-4"><a class="layui-btn layui-btn-xs"
+                                                                             lay-event="edit">编辑</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" lay-event="update">修改权限</a>
+                            <button class="layui-btn layui-btn-warm layui-btn-xs" lay-event="upStatus">禁用</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr data-index="3">
+                    <td data-field="rid" data-key="1-0-0" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-0">8</div>
+                    </td>
+                    <td data-field="pttype" data-key="1-0-1" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-1">财务员</div>
+                    </td>
+                    <td data-field="meno" data-key="1-0-2" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-2">123</div>
+                    </td>
+                    <td data-field="status" data-key="1-0-3" data-content="1" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-3">
+                            <button type="button" class="layui-btn layui-btn-xs">启用</button>
+                        </div>
+                    </td>
+                    <td data-field="4" data-key="1-0-4" data-off="true" class="layui-table-col-special">
+                        <div class="layui-table-cell laytable-cell-1-0-4"><a class="layui-btn layui-btn-xs"
+                                                                             lay-event="edit">编辑</a> <a
+                                class="layui-btn layui-btn-danger layui-btn-xs" lay-event="update">修改权限</a>
+                            <button class="layui-btn layui-btn-warm layui-btn-xs" lay-event="upStatus">禁用</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr data-index="4">
+                    <td data-field="rid" data-key="1-0-0" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-0">9</div>
+                    </td>
+                    <td data-field="pttype" data-key="1-0-1" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-1">老板</div>
+                    </td>
+                    <td data-field="meno" data-key="1-0-2" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-2">想干啥干啥</div>
+                    </td>
+                    <td data-field="status" data-key="1-0-3" data-content="2" class="">
+                        <div class="layui-table-cell laytable-cell-1-0-3">
+                            <button type="button" class="layui-btn layui-btn-xs">启用</button>
+                        </div>
+                    </td>
+                    <td data-field="4" data-key="1-0-4" data-off="true" class="layui-table-col-special">
+                        <div class="layui-table-cell laytable-cell-1-0-4"><p
+                                style="color: red;font-style: italic;font-weight: lighter;font-weight: bold">Super
+                            Administrators</p></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-table-fixed layui-table-fixed-l">
+            <div class="layui-table-header">
+                <table class="layui-table" cellspacing="0" cellpadding="0" border="0">
+                    <thead>
+                    <tr>
+                        <th data-field="rid" data-key="1-0-0" data-unresize="true" class=" layui-unselect">
+                            <div class="layui-table-cell laytable-cell-1-0-0"><span>ID</span><span
+                                    class="layui-table-sort layui-inline"><i class="layui-edge layui-table-sort-asc"
+                                                                             title="升序"></i><i
+                                    class="layui-edge layui-table-sort-desc" title="降序"></i></span></div>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="layui-table-body" style="height: 195px;">
+                <table class="layui-table" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                    <tr data-index="0" class="">
+                        <td data-field="rid" data-key="1-0-0" class="">
+                            <div class="layui-table-cell laytable-cell-1-0-0">1</div>
+                        </td>
+                    </tr>
+                    <tr data-index="1" class="">
+                        <td data-field="rid" data-key="1-0-0" class="">
+                            <div class="layui-table-cell laytable-cell-1-0-0">2</div>
+                        </td>
+                    </tr>
+                    <tr data-index="2">
+                        <td data-field="rid" data-key="1-0-0" class="">
+                            <div class="layui-table-cell laytable-cell-1-0-0">7</div>
+                        </td>
+                    </tr>
+                    <tr data-index="3">
+                        <td data-field="rid" data-key="1-0-0" class="">
+                            <div class="layui-table-cell laytable-cell-1-0-0">8</div>
+                        </td>
+                    </tr>
+                    <tr data-index="4">
+                        <td data-field="rid" data-key="1-0-0" class="">
+                            <div class="layui-table-cell laytable-cell-1-0-0">9</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="layui-table-fixed layui-table-fixed-r layui-hide" style="right: -1px;">
+            <div class="layui-table-header">
+                <table class="layui-table" cellspacing="0" cellpadding="0" border="0">
+                    <thead>
+                    <tr>
+                        <th data-field="4" data-key="1-0-4" class=" layui-table-col-special">
+                            <div class="layui-table-cell laytable-cell-1-0-4"><span>操作</span></div>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="layui-table-mend"></div>
+            </div>
+            <div class="layui-table-body" style="height: 195px;">
+                <table class="layui-table" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                    <tr data-index="0" class="">
+                        <td data-field="4" data-key="1-0-4" data-off="true" class="layui-table-col-special">
+                            <div class="layui-table-cell laytable-cell-1-0-4"><a class="layui-btn layui-btn-xs"
+                                                                                 lay-event="edit">编辑</a> <a
+                                    class="layui-btn layui-btn-danger layui-btn-xs" lay-event="update">修改权限</a>
+                                <button class="layui-btn layui-btn-warm layui-btn-xs" lay-event="upStatus">禁用</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-index="1" class="">
+                        <td data-field="4" data-key="1-0-4" data-off="true" class="layui-table-col-special">
+                            <div class="layui-table-cell laytable-cell-1-0-4"><a class="layui-btn layui-btn-xs"
+                                                                                 lay-event="edit">编辑</a> <a
+                                    class="layui-btn layui-btn-danger layui-btn-xs" lay-event="update">修改权限</a>
+                                <button class="layui-btn layui-btn-warm layui-btn-xs" lay-event="upStatus">禁用</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-index="2">
+                        <td data-field="4" data-key="1-0-4" data-off="true" class="layui-table-col-special">
+                            <div class="layui-table-cell laytable-cell-1-0-4"><a class="layui-btn layui-btn-xs"
+                                                                                 lay-event="edit">编辑</a> <a
+                                    class="layui-btn layui-btn-danger layui-btn-xs" lay-event="update">修改权限</a>
+                                <button class="layui-btn layui-btn-warm layui-btn-xs" lay-event="upStatus">禁用</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-index="3">
+                        <td data-field="4" data-key="1-0-4" data-off="true" class="layui-table-col-special">
+                            <div class="layui-table-cell laytable-cell-1-0-4"><a class="layui-btn layui-btn-xs"
+                                                                                 lay-event="edit">编辑</a> <a
+                                    class="layui-btn layui-btn-danger layui-btn-xs" lay-event="update">修改权限</a>
+                                <button class="layui-btn layui-btn-warm layui-btn-xs" lay-event="upStatus">禁用</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-index="4">
+                        <td data-field="4" data-key="1-0-4" data-off="true" class="layui-table-col-special">
+                            <div class="layui-table-cell laytable-cell-1-0-4"><p
+                                    style="color: red;font-style: italic;font-weight: lighter;font-weight: bold">Super
+                                Administrators</p></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="layui-table-page">
+        <div id="layui-table-page1">
+            <div class="layui-box layui-laypage layui-laypage-default" id="layui-laypage-1"><a href="javascript:;"
+                                                                                               class="layui-laypage-prev layui-disabled"
+                                                                                               data-page="0"><i
+                    class="layui-icon"></i></a><span class="layui-laypage-curr"><em
+                    class="layui-laypage-em"></em><em>1</em></span><a href="javascript:;"
+                                                                      class="layui-laypage-next layui-disabled"
+                                                                      data-page="2"><i class="layui-icon"></i></a><span
+                    class="layui-laypage-skip">到第<input type="text" min="1" value="1" class="layui-input">页<button
+                    type="button" class="layui-laypage-btn">确定</button></span><span
+                    class="layui-laypage-count">共 5 条</span><span class="layui-laypage-limits"><select lay-ignore=""><option
+                    value="10" selected="">10 条/页</option><option value="20">20 条/页</option><option value="30">30 条/页</option><option
+                    value="40">40 条/页</option><option value="50">50 条/页</option><option value="60">60 条/页</option><option
+                    value="70">70 条/页</option><option value="80">80 条/页</option><option value="90">90 条/页</option></select></span>
+            </div>
+        </div>
+    </div>
+    <style>.laytable-cell-1-0-0 {
+    }
+
+    .laytable-cell-1-0-1 {
+    }
+
+    .laytable-cell-1-0-2 {
+    }
+
+    .laytable-cell-1-0-3 {
+    }
+
+    .laytable-cell-1-0-4 {
+    }</style>
+</div>
+<div id="treeDemo" style="display: none">
+    <div id="test1"></div>
+
+    <button class="layui-btn layui-btn-sm" id="subPer" style="margin:10px 0 0 50px">提交权限修改</button>
+</div>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="addRole">新增角色</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">刷新</button>
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    {{# if (d.status == 2) { }}
+    <p style="color: red;font-style: italic;font-weight: lighter;font-weight: bold">Super Administrators</p>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update">设置权限</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{#  if(d.status == 0){ }}
+    <button class="layui-btn layui-btn-warm layui-btn-xs" lay-event="upStatus">禁用</button>
+    {{#  } else { }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="upStatus">启用</button>
+    {{#  } }}
+    {{#  if(d.status === 0){ }}
+
+    {{#  } }}
+    {{# } }}
+</script>
+<script>
+    layui.use(['table', 'jquery', 'layer', 'form', 'tree'], function () {
+        var table = layui.table;
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var form = layui.form;
+        var tree = layui.tree;
+
+        //当页面加载时执行的方法
+        $(function () {
+            showtable();
+        })
+
+        //展示角色信息的方法
+        function showtable() {
+            table.render({
+                elem: '#test'
+                , url: './role/gets'
+                , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                , title: '角色表'
+                , cols: [[
+                    {field: 'id', title: 'ID', fixed: 'left', unresize: true, sort: true}
+                    , {field: 'name', title: '角色名'}
+                    , {field: 'roleKey', title: '角色描述'}
+                    , {
+                        field: 'createBy', title: '创建者', templet: function (d) {
+                            return d.createBy;
+                        }
+                    }
+                    , {
+                        field: 'status', title: '员工状态', templet: function (d) {
+                            return d.status == 1 ? "禁用" : "启用";
+                        }
+                    }
+                    , {
+                        field: 'creatTime', width: 150, title: '创建时间', templet: function (d) {
+                            return layui.util.toDateString(d.hiredate, "yyyy-MM-dd HH:mm")
+
+                        }
+                    }
+                    , {fixed: 'right', title: '操作', width: 300, toolbar: '#barDemo'}
+                ]]
+                , page: true
+                , limit: 5,//默认每页显示的条数
+                limits: [5, 10, 15, 20]//自定义分页条数的选择
+                //结构转换
+                , parseData: function (res) {
+                    return {
+                        "code": res.id, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.data.total, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                }
+            });
+        }
+
+
+        //新增和修改角色的表单提交事件
+        form.on('submit(editRole)', function (data) {
+            //向后台发送请求
+            $.ajax({
+                url: './role/addOrUpdPosition',
+                type: "POST",
+                data: data.field,
+                //因为layui 在表单提交时 有时候会自动拦截我们的异步请求
+                //所以此处改位同步请求
+                async: false,
+                dataType: "json",
+                success: function (result) {
+                    if (result.id == 0) {
+                        //重载表格
+                        layer.closeAll();
+                        layer.msg(result.msg, {icon: 1});
+                        showtable();
+
+                    } else {
+                        layer.msg(result.msg, {icon: 5});
+                    }
+                }
+            })
+            return false;
+        });
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：' + data.length + ' 个');
+                    break;
+                case 'isAll':
+                    //当页面加载完成时先调用showTable()函数
+                    showtable();
+                    break;
+                case 'addRole':
+                    //打开弹出框时先清空
+                    $("#editForm")[0].reset();
+                    layer.open({
+                        type: 1,
+                        anim: 3,
+                        title: ['添加角色', 'font-size:20px'],
+                        content: $("#addRoleDiv"),
+                        offset: '50px',
+                        area: '400px'
+                    })
+                    break;
+
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+            }
+            ;
+        });
+
+        //监听行工具事件
+        var rowData;
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            rowData = obj.data;
+            console.log(obj);
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    $.ajax({
+                        type: 'get'
+                        , url: './role/delPosition'
+                        , data: {"rid": data.id}
+                        , dataType: 'json'
+                        , success: function (result) {
+                            if (result.id == 0) {
+                                layer.msg(result.msg, {icon: 5});
+                                table.reload("test");
+                            }
+                            layer.msg(result.msg, {icon: 1});
+                        }
+                    })
+                    layer.close(index);
+                });
+            } else if (obj.event === 'upStatus') {
+                layer.confirm("真的要禁用/启用吗？", function (index) {
+                    $.ajax({
+                        type: 'get'
+                        , url: './role/updStatus'
+                        , data: {"rid": data.id, "status": data.status}
+                        , dataType: 'json'
+                        , success: function (result) {
+                            if (result.id == 0) {
+                                layer.msg(result.msg, {icon: 5});
+                                table.reload("test");
+                            }
+                            layer.msg(result.msg, {icon: 1});
+                        }
+                    })
+                    layer.close(index);
+                })
+            } else if (obj.event === 'edit') {
+                //打开弹出框时先清空
+                $("#editForm")[0].reset();
+                layer.open({
+                    type: 1,
+                    anim: 3,
+                    title: ['修改角色', 'font-size:20px'],
+                    content: $("#addRoleDiv"),
+                    offset: '50px',
+                    area: '400px',
+                    success: function () {
+                        form.val("editForm", data);//点击编辑时，填充数据
+                        $("#rid").val(obj.data.id)
+                    }
+                })
+            } else if (obj.event === 'update') {//修改权限的弹出框
+                layer.open({
+                    type: 1,
+                    anim: 3,
+                    offset: '5px',
+                    area: ['200px', '400px'],
+                    title: ['修改权限', 'font-size:20px'],
+                    content: $("#treeDemo")
+                });
+                $.ajax({
+                    type: 'get',
+                    url: './menu/getTrees',
+                    data: {"rid": obj.data.id},
+                    dataType: "json",
+                    success: function (res) {
+                        tree.render({
+                            elem: '#test1'
+                            , showCheckbox: true
+                            , data: res.data
+                            , id: "demoId"
+                        });
+                    }
+                });
+            }
+        });
+
+        //点击提交修改权限按钮 做修改权限操作
+        $("#subPer").click(function () {
+
+            //取出勾选的节点的id数据，父子节点都要
+            var checkData = tree.getChecked("demoId");
+            console.log(checkData);
+            var midArr = [];//数组
+            $.each(checkData, function (i, obj1) {
+                //将勾选的父菜单的id放入数组中
+                midArr.push(obj1.id);
+                $.each(obj1.children, function (i, obj2) {
+                    //将所有勾选的子菜单的id放入数组中
+                    midArr.push(obj2.id);
+                })
+            })
+            console.log(midArr);
+            $.ajax({
+                type: 'post',
+                url: "/menu/updMenu",
+                data: {"roleId": rowData.id, "midArr": midArr + ""},
+                dataType: 'json',
+                success: function (result) {
+                    layer.closeAll();
+                    if (result.id == 0) {
+                        layer.msg(result.msg, {icon: 1});
+                    } else {
+                        layer.msg(result.msg, {icon: 5});
+                    }
+                }
+            })
+        })
+    });
+</script>
+
+
+</body>
+</html>

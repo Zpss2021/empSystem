@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--加载属性文件-->
+    <context:property-placeholder location="classpath:mysqlHelper.properties"/>
+    <!--数据源-->
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!--mybatis的session工厂-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+    </bean>
+    <!--映射mapper接口-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.zpss.mapper"/>
+    </bean>
+    <!--声明式事务-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--增强-->
+    <tx:advice id="tx" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" propagation="NOT_SUPPORTED"/>
+            <tx:method name="insert*" propagation="SUPPORTS"/>
+            <tx:method name="update*" propagation="SUPPORTS"/>
+            <tx:method name="delete*" propagation="SUPPORTS"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--增强和切点-->
+    <!-- aop:config>
+        <aop:pointcut id="p" expression="execution(* com.zpss.service.impl.*.*(..))"/>
+        <aop:advisor advice-ref="tx" pointcut-ref="p"/>
+    </aop:config -->
+    <!--扫描业务层的service实现类-->
+    <context:component-scan base-package="com.zpss.service"/>
+</beans>

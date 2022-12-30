@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zpss.mapper.DeptMapper">
+    <resultMap id="dept" type="Dept">
+        <id property="id" column="dept_id"/>
+        <result property="name" column="dept_name"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <update id="updateDept" parameterType="dept">
+        update tbl_dept
+        <set>
+            <if test="name!=null and name!=''">
+                dept_name = #{name},
+            </if>
+            <if test="status!=null">
+                status=#{status}
+            </if>
+        </set>
+        where dept_id=#{id}
+    </update>
+    <insert id="addDept" parameterType="Dept">
+        insert into tbl_dept
+        values (default, #{name}, #{status}, #{createBy}, default)
+    </insert>
+    <select id="getDeptByName" resultType="Dept">
+        select *
+        from tbl_dept
+        where dept_name = #{deptName}
+    </select>
+    <delete id="delDept">
+        delete
+        from tbl_dept
+        where dept_id = #{id}
+    </delete>
+    <update id="updateStatus" parameterType="Dept">
+        update tbl_dept
+        set status = #{status}
+        where dept_id = #{id}
+    </update>
+    <select id="getDepts" resultMap="dept">
+        select *
+        from tbl_dept
+    </select>
+</mapper>
+

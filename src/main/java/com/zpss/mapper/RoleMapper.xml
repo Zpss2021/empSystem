@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zpss.mapper.RoleMapper">
+    <resultMap id="role" type="Role">
+        <id property="id" column="role_id"/>
+        <result property="name" column="role_name"/>
+        <result property="roleKey" column="role_key"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <delete id="deleteRole">
+        delete
+        from tbl_role
+        where role_id = #{no}
+    </delete>
+    <update id="updStatus" parameterType="role">
+        update tbl_role
+        set status = #{status}
+        where role_id = #{id}
+    </update>
+    <update id="updateRole" parameterType="role">
+        update tbl_role
+        <set>
+            <if test="name!=null and name!=''">
+                role_name=#{name},
+            </if>
+            <if test="roleKey!=null and roleKey!=''">
+                role_key=#{roleKey},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+        </set>
+        where role_id=#{id}
+    </update>
+    <insert id="addRole" parameterType="Role">
+        insert into tbl_role
+        values (default, #{name}, #{roleKey}, #{status}, #{createBy}, default)
+    </insert>
+    <select id="getRoleByName" resultType="Role">
+        select *
+        from tbl_role
+        where role_name = #{name}
+    </select>
+    <select id="getRoles" resultMap="role">
+        select *
+        from tbl_role
+    </select>
+</mapper>

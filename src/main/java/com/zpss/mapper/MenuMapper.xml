@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zpss.mapper.MenuMapper">
+    <resultMap id="menu" type="Menu">
+        <id property="id" column="menu_id"/>
+        <result property="name" column="menu_name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="url" column="url"/>
+        <association property="role" column="role_id" javaType="Role">
+            <id property="id" column="role_id"/>
+            <result property="name" column="role_name"/>
+        </association>
+    </resultMap>
+    <select id="gets" resultMap="menu">
+        select *
+        from tbl_menu m
+                 join tbl_role_menu rm on m.menu_id = rm.menu_id
+                 join tbl_role r on r.role_id = rm.role_id
+        where r.role_id = #{id}
+    </select>
+    <resultMap id="tree" type="MenuTree">
+        <id property="id" column="menu_id"/>
+        <result property="title" column="menu_name"/>
+        <result property="href" column="url"/>
+        <collection property="children" ofType="MenuTree">
+            <id property="id" column="sid"/>
+            <result property="title" column="sname"/>
+            <result property="href" column="surl"/>
+        </collection>
+    </resultMap>
+    <select id="getTrees" resultMap="tree">
+        select mm.*, sm.menu_id sid, sm.menu_name sname, sm.url surl
+        from tbl_menu mm
+                 join tbl_menu sm on mm.menu_id = sm.parent_id
+    </select>
+    <resultMap id="roleMenu" type="RoleMenu">
+        <result property="rid" column="role_id"/>
+        <result property="mid" column="menu_id"/>
+    </resultMap>
+    <select id="getRoleMenuByRoleId" resultMap="roleMenu">
+        select *
+        from tbl_role_menu
+        where role_id = #{rno}
+    </select>
+    <delete id="deleteRoleMenuByRoleId">
+        delete
+        from tbl_role_menu
+        where role_id = #{rid}
+    </delete>
+    <insert id="addRoleMenu">
+        insert into tbl_role_menu(role_id, menu_id) values
+        <foreach collection="mids" separator="," item="mid">
+            (#{rid}, #{mid})
+        </foreach>
+    </insert>
+</mapper>

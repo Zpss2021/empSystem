@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="./assets/layui/css/layui.css">
+    <style type="text/css">
+        body {
+            background-image: url("assets/img/bj.jpeg");
+            background-repeat: no-repeat;
+            -moz-background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+
+        .layui-card {
+            background: rgba(256, 256, 256, 0.9);
+            width: 400px;
+            height: 250px;
+            box-shadow: -15px 15px 15px rgba(6, 17, 47, 0.7);
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            margin: auto;
+        }
+
+        .layui-card-body {
+            width: 350px;
+            height: 350px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-card">
+    <div class="layui-card-header layui-bg-blue">欢迎登录</div>
+    <div class="layui-card-body">
+        <form class="layui-form" method="post">
+            <div class="layui-form-item">
+
+                <label class="layui-form-label">用户名</label>
+
+                <div class="layui-input-inline">
+
+                    <input type="text" value="user000" name="user" required lay-verify="required"
+                           placeholder="请输入用户名" autocomplete="off" class="layui-input" id="username">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="pwd" value="123456" required lay-verify="required"
+                           placeholder="请输入密码" autocomplete="off" class="layui-input" id="password">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline">
+                    <button type="button" class="layui-btn" lay-submit="" lay-filter="login">登录</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="./assets/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var $ = layui.$;//获取一个$对象
+        form.on("submit(login)", function (data) {
+            // layer.msg(JSON.stringify(data.field),{time:2000});
+            //请求三要素:1.请求路径  2.请求方式 3.请求参数
+            //响应三要素:1.状态  2.数据内容  3.格式
+            $.ajax({
+                url: "./user/login",//1.请求路径
+                type: "post",//2.请求方式
+                data: data.field,//3.请求参数
+                dataType: "json",//响应格式
+                success: function (res) {// 2.响应数据内容
+                    if (res.id == 0) {
+                        layer.msg(res.msg)
+                        //跳转
+                        window.location.href = "index.html"
+                    }
+                    if (res.id == 1) {
+                        layer.msg(res.msg)
+                    }
+                }
+            });
+
+        })
+    })
+
+    // 防止后退
+    history.pushState(null, null, document.URL);
+    window.addEventListener("popstate", function () {
+        history.pushState(null, null, document.URL);
+    });
+</script>
+</body>
+</html>

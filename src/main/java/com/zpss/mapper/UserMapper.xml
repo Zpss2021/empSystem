@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zpss.mapper.UserMapper">
+    <resultMap id="user" type="User">
+        <id property="id" column="user_id"/>
+        <result property="name" column="user_name"/>
+        <result property="user" column="login_name"/>
+        <result property="phone" column="phonenumber"/>
+        <result property="pwd" column="password"/>
+        <association property="dept" column="dept_id" javaType="Dept">
+            <id property="id" column="dept_id"/>
+            <result property="name" column="dept_name"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+        </association>
+        <association property="role" column="role_id" javaType="Role">
+            <id property="id" column="role_id"/>
+            <result property="name" column="role_name"/>
+            <result property="roleKey" column="role_key"/>
+            <result property="createBy" column="create_by"/>
+            <result property="createTime" column="create_time"/>
+        </association>
+    </resultMap>
+    <select id="getStatus" resultType="java.lang.Integer">
+        select status
+        from tbl_user
+        where login_name = #{loginName}
+    </select>
+    <delete id="deleteUser">
+        delete
+        from tbl_user
+        where user_id = #{userId}
+    </delete>
+    <update id="updateStatus">
+        update tbl_user
+        set status=#{s}
+        where user_id = #{id}
+    </update>
+    <update id="updateUserRole" parameterType="UserRole">
+        update tbl_user_role
+        set role_id=#{roleId}
+        where user_id = #{userId}
+    </update>
+    <update id="updateUser" parameterType="User">
+        update tbl_user
+        <set>
+            <if test="dept!=null">
+                dept_id=#{dept.id},
+            </if>
+            <if test="name!=null and name!=''">
+                user_name=#{name},
+            </if>
+            <if test="email!=null and email!=''">
+                email=#{email},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phonenumber=#{phone},
+            </if>
+            <if test="sex!=null">
+                sex=#{sex},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+        </set>
+        where user_id=#{id};
+    </update>
+    <select id="getUserId" resultType="java.lang.Integer">
+        select user_id
+        from tbl_user
+        order by user_id desc limit 1
+    </select>
+    <insert id="addUser" parameterType="User">
+        insert into tbl_user
+        values (default, #{dept.id}, #{user}, #{name}, #{email}, #{phone}, #{sex}, #{pwd}, #{status}, default)
+    </insert>
+    <insert id="addUserRole" parameterType="UserRole">
+        insert into tbl_user_role
+        values (#{userId}, #{roleId})
+    </insert>
+    <select id="login" parameterType="User" resultMap="user">
+        select *
+        from tbl_user u
+                 join tbl_user_role ur on u.user_id = ur.user_id
+                 join tbl_role r on r.role_id = ur.role_id
+        where login_name = #{user}
+          and password = #{pwd}
+    </select>
+    <select id="gets" resultMap="user" parameterType="UserVo">
+        select *
+        from tbl_user u
+        join tbl_dept d on u.dept_id = d.dept_id
+        join tbl_user_role ur on ur.user_id = u.user_id
+        join tbl_role r on r.role_id = ur.role_id
+        <where>
+            <if test="id!=null">
+                and u.user_id=#{id}
+            </if>
+            <if test="name!=null and name!=''">
+                and u.user_name like concat('%', #{name}, '%')
+            </if>
+            <if test="deptId!=null">
+                and u.dept_id=#{deptId}
+            </if>
+            <if test="startTime!=null">
+                <![CDATA[and u.hiredate > #{startTime}]]>
+            </if>
+            <if test="endTime!=null">
+                <![CDATA[and u.hiredate < #{endTime}]]>
+            </if>
+        </where>
+    </select>
+</mapper>
