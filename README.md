@@ -1,5 +1,7 @@
 # empSystem
 企业实训：通用后台管理项目
+
+Github地址：https://github.com/Zpss2021/empSystem
 # 写在最前
 本项目限于原作者水平，上传时各个方面功能都不完善，只能作为一个小案例参考，可能对刚刚接触Java后端开发的朋友有帮助，故上传之。自述文档也尽量写的详细一些。
 # 介绍
@@ -43,5 +45,10 @@ Java开发常用的IDE，Jetbrains出品；提供了Maven webapp项目生成器�
 2. 用HeidiSQL等软件连接MySQL数据库，导入数据库表，并将mysqlHelper.properties中的配置修改成自己数据库的账号密码
 3. 用IDEA打开项目，首次运行会下载Maven中配置好的依赖项；
 4. 项目默认运行在8080端口，用浏览器打开 http://localhost:8080 即可进入系统首页。
+
+# 项目预览
+![image](https://img2023.cnblogs.com/blog/2908723/202301/2908723-20230116060251351-87550089.png)
+![image](https://img2023.cnblogs.com/blog/2908723/202301/2908723-20230116060305081-1524239823.png)
+![image](https://img2023.cnblogs.com/blog/2908723/202301/2908723-20230116060313428-2013261613.png)
 
 [^1]:Model-View-Controller(模型-视图-控制器)设计模式。用于应用程序的分层开发
